@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <title>Para Diana</title>
 
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;500&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+
 <style>
 body {
   margin: 0;
@@ -12,7 +15,6 @@ body {
   justify-content: center;
   align-items: center;
   background: radial-gradient(circle at top, #3a0ca3, #0b0b0f);
-  font-family: 'Segoe UI', sans-serif;
 }
 
 .popup {
@@ -21,8 +23,26 @@ body {
   padding: 35px;
   border-radius: 20px;
   text-align: center;
-  width: 320px;
+  width: 340px;
   box-shadow: 0 0 40px rgba(138,43,226,0.4);
+}
+
+.line1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  margin-bottom: 5px;
+}
+
+.line2 {
+  font-family: 'Dancing Script', cursive;
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.line3 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 20px;
+  font-weight: 500;
 }
 
 .buttons {
@@ -37,7 +57,8 @@ button {
   border-radius: 25px;
   font-size: 16px;
   cursor: pointer;
-  transition: 0.3s ease;
+  font-family: 'Poppins', sans-serif;
+  transition: 0.2s ease;
 }
 
 #yes {
@@ -48,18 +69,16 @@ button {
 #no {
   background: #2a2a2a;
   color: #e0e0e0;
-  position: relative;
 }
-
 </style>
 </head>
 
 <body>
 
 <div class="popup">
-  <h2>Hola, Diana.</h2>
-  <p>Jesús tiene una pregunta…</p>
-  <p><strong>¿Quieres ser mi San Valentín?</strong></p>
+  <div class="line1">Hola, Diana.</div>
+  <div class="line2">Jesús tiene una pregunta…</div>
+  <div class="line3"><strong>¿Quieres ser mi San Valentín?</strong></div>
 
   <div class="buttons">
     <button id="yes">Sí ☺️</button>
@@ -68,24 +87,27 @@ button {
 </div>
 
 <script>
-
 const noBtn = document.getElementById("no");
 const yesBtn = document.getElementById("yes");
 
-noBtn.addEventListener("click", function(e){
-  e.preventDefault();
+const noTexts = [
+  "No 😔",
+  "Ay 🤧",
+  "¿Cómo? 😱",
+  "Es broma, ¿verdad? 🥲",
+  "¿Por qué? 😭"
+];
 
-  // Se mueve solo cuando intentan hacer click
-  const x = Math.random() * 150 - 75;
-  const y = Math.random() * 60 - 30;
+let clickCount = 0;
 
-  noBtn.style.transform = `translate(${x}px, ${y}px)`;
-  noBtn.textContent = "Sí ☺️";
-  noBtn.style.background = "linear-gradient(135deg, #7b2cbf, #c77dff)";
-  noBtn.style.color = "white";
+noBtn.addEventListener("click", () => {
+  clickCount++;
+  if (clickCount < noTexts.length) {
+    noBtn.textContent = noTexts[clickCount];
+  }
 });
 
-yesBtn.addEventListener("click", function(){
+yesBtn.addEventListener("click", () => {
   document.body.innerHTML = `
   <div style="
     height:100vh;
@@ -93,18 +115,19 @@ yesBtn.addEventListener("click", function(){
     justify-content:center;
     align-items:center;
     text-align:center;
-    font-family:'Segoe UI', sans-serif;
+    font-family:'Playfair Display', serif;
     color:white;
     background: radial-gradient(circle at top, #3a0ca3, #0b0b0f);
   ">
     <div>
       <h1>💜 Gracias por existir, Diana 💜</h1>
-      <p style="font-size:22px;">Te amo.</p>
+      <p style="font-size:22px; font-family:'Dancing Script', cursive;">
+      Te amo.
+      </p>
     </div>
   </div>
   `;
 });
-
 </script>
 
 </body>
