@@ -1,152 +1,111 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>San Valentín</title>
+<meta charset="UTF-8">
+<title>Para Diana</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at top, #3a0ca3, #0b0b0f);
+  font-family: 'Segoe UI', sans-serif;
+}
 
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: radial-gradient(circle at top, #3a0ca3, #0b0b0f);
-      font-family: 'Segoe UI', sans-serif;
-      overflow: hidden;
-    }
+.popup {
+  background: #111;
+  color: white;
+  padding: 35px;
+  border-radius: 20px;
+  text-align: center;
+  width: 320px;
+  box-shadow: 0 0 40px rgba(138,43,226,0.4);
+}
 
-    .popup {
-      background: #111;
-      color: #f1f1f1;
-      padding: 32px 40px;
-      border-radius: 22px;
-      text-align: center;
-      box-shadow: 0 0 40px rgba(138, 43, 226, 0.35);
-      width: 320px;
-      position: relative;
-      animation: fadeIn 0.5s ease;
-    }
+.buttons {
+  margin-top: 25px;
+  display: flex;
+  justify-content: space-between;
+}
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.96); }
-      to   { opacity: 1; transform: scale(1); }
-    }
+button {
+  padding: 10px 22px;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
 
-    h1 {
-      margin: 0;
-      font-size: 26px;
-    }
+#yes {
+  background: linear-gradient(135deg, #7b2cbf, #c77dff);
+  color: white;
+}
 
-    p {
-      margin: 12px 0;
-      font-size: 18px;
-      color: #d6d6d6;
-    }
+#no {
+  background: #2a2a2a;
+  color: #e0e0e0;
+  position: relative;
+}
 
-    .question {
-      margin-top: 18px;
-      font-size: 20px;
-      color: white;
-    }
-
-    .buttons {
-      margin-top: 28px;
-      height: 70px;
-      position: relative;
-    }
-
-    button {
-      padding: 10px 22px;
-      border: none;
-      border-radius: 25px;
-      font-size: 16px;
-      cursor: pointer;
-      user-select: none;
-      will-change: transform;
-    }
-
-    #yes {
-      background: linear-gradient(135deg, #7b2cbf, #c77dff);
-      color: white;
-    }
-
-    #no {
-      background: #2a2a2a;
-      color: #e0e0e0;
-      position: absolute;
-      right: 0;
-      transition: transform 0.2s ease-out;
-    }
-  </style>
+</style>
 </head>
 
 <body>
 
-  <div class="popup" id="popup">
-    <h1>Hola, Diana.</h1>
-    <p>Jesús tiene una pregunta…</p>
-    <div class="question">¿Quieres ser mi San Valentín?</div>
+<div class="popup">
+  <h2>Hola, Diana.</h2>
+  <p>Jesús tiene una pregunta…</p>
+  <p><strong>¿Quieres ser mi San Valentín?</strong></p>
 
-    <div class="buttons">
-      <button id="yes">Sí ☺️</button>
-      <button id="no">No 😔</button>
+  <div class="buttons">
+    <button id="yes">Sí ☺️</button>
+    <button id="no">No 😔</button>
+  </div>
+</div>
+
+<script>
+
+const noBtn = document.getElementById("no");
+const yesBtn = document.getElementById("yes");
+
+noBtn.addEventListener("click", function(e){
+  e.preventDefault();
+
+  // Se mueve solo cuando intentan hacer click
+  const x = Math.random() * 150 - 75;
+  const y = Math.random() * 60 - 30;
+
+  noBtn.style.transform = `translate(${x}px, ${y}px)`;
+  noBtn.textContent = "Sí ☺️";
+  noBtn.style.background = "linear-gradient(135deg, #7b2cbf, #c77dff)";
+  noBtn.style.color = "white";
+});
+
+yesBtn.addEventListener("click", function(){
+  document.body.innerHTML = `
+  <div style="
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    font-family:'Segoe UI', sans-serif;
+    color:white;
+    background: radial-gradient(circle at top, #3a0ca3, #0b0b0f);
+  ">
+    <div>
+      <h1>💜 Gracias por existir, Diana 💜</h1>
+      <p style="font-size:22px;">Te amo.</p>
     </div>
   </div>
+  `;
+});
 
-  <script>
-    const noBtn = document.getElementById("no");
-    const popup = document.getElementById("popup");
-
-    let lastMove = 0;
-
-    document.addEventListener("pointermove", (e) => {
-      const now = performance.now();
-      if (now - lastMove < 80) return; // limitamos frecuencia
-      lastMove = now;
-
-      const btnRect = noBtn.getBoundingClientRect();
-      const dx = e.clientX - (btnRect.left + btnRect.width / 2);
-      const dy = e.clientY - (btnRect.top + btnRect.height / 2);
-      const distance = Math.hypot(dx, dy);
-
-      if (distance < 90) {
-        const moveX = (Math.random() * 120 - 60);
-        const moveY = (Math.random() * 40 - 20);
-
-        requestAnimationFrame(() => {
-          noBtn.style.transform = `translate(${moveX}px, ${moveY}px)`;
-          noBtn.textContent = "Sí ☺️";
-          noBtn.style.background =
-            "linear-gradient(135deg, #7b2cbf, #c77dff)";
-          noBtn.style.color = "white";
-        });
-      }
-    });
-
-    document.getElementById("yes").addEventListener("click", () => {
-      document.body.innerHTML = `
-        <div style="
-          height: 100vh;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          text-align: center;
-          font-family: 'Segoe UI', sans-serif;
-          color: white;
-          font-size: 36px;
-          background: radial-gradient(circle at top, #3a0ca3, #0b0b0f);
-        ">
-          💜 Gracias por existir, Diana 💜<br><br>
-          Te amo.
-        </div>
-      `;
-    });
-  </script>
+</script>
 
 </body>
 </html>
