@@ -9,63 +9,44 @@
 body {
     margin: 0;
     padding: 0;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Segoe UI', sans-serif;
-    background: radial-gradient(circle at top, #2a003f, #0d001a);
     overflow: hidden;
+    font-family: 'Georgia', serif;
+    background: #0d001a;
     color: white;
 }
 
-/* Fondo estrellas */
-body::before {
-    content: "";
-    position: absolute;
-    width: 200%;
-    height: 200%;
-    background: transparent;
-    background-image: radial-gradient(#a855f7 1px, transparent 1px);
-    background-size: 50px 50px;
-    animation: starsMove 60s linear infinite;
-    opacity: 0.4;
-}
-
-@keyframes starsMove {
-    from { transform: translate(0, 0); }
-    to { transform: translate(-500px, -500px); }
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 0;
 }
 
 .container {
     position: relative;
-    background: rgba(0,0,0,0.6);
-    padding: 40px;
-    border-radius: 20px;
-    text-align: center;
-    width: 90%;
-    max-width: 700px;
     z-index: 2;
-    box-shadow: 0 0 25px rgba(168,85,247,0.6);
+    background: rgba(0,0,0,0.65);
+    padding: 50px;
+    border-radius: 25px;
+    width: 90%;
+    max-width: 800px;
+    margin: 100px auto;
+    text-align: center;
+    box-shadow: 0 0 40px rgba(168,85,247,0.7);
 }
 
 h1 {
-    font-size: 28px;
-    margin-bottom: 10px;
-}
-
-p {
-    font-size: 18px;
+    font-size: 30px;
 }
 
 button {
     margin: 15px;
-    padding: 12px 25px;
+    padding: 14px 28px;
     font-size: 18px;
-    border: none;
     border-radius: 30px;
+    border: none;
     cursor: pointer;
-    transition: 0.3s ease;
+    transition: 0.3s;
 }
 
 #yesBtn {
@@ -82,9 +63,15 @@ button {
     color: white;
 }
 
+button:disabled {
+    background: #222 !important;
+    box-shadow: none !important;
+    cursor: not-allowed;
+}
+
 #gifContainer img {
     margin-top: 20px;
-    width: 200px;
+    width: 220px;
     border-radius: 15px;
 }
 </style>
@@ -92,10 +79,12 @@ button {
 
 <body>
 
+<canvas id="stars"></canvas>
+
 <div class="container" id="mainBox">
     <h1>Diana,</h1>
-    <p>después de tantos videos y señales… creo que ya sabes lo que voy a preguntar.</p>
-    <h2>¿Quieres ser mi San Valentín? ☺️</h2>
+    <p>después de tantos videos y señales, creo que ya sabes que voy a preguntar, de verdad.</p>
+    <h2>¿Quieres ser mi San Valentín?</h2>
 
     <button id="yesBtn">Sí ☺️</button>
     <button id="noBtn">No 😔</button>
@@ -106,6 +95,42 @@ button {
 <audio id="bgMusic" src="first-love.mp3"></audio>
 
 <script>
+// ===== Fondo partículas =====
+const canvas = document.getElementById("stars");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+for (let i = 0; i < 150; i++) {
+    particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() * 1.5,
+        speed: Math.random() * 0.5
+    });
+}
+
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#a855f7";
+
+    particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fill();
+        p.y += p.speed;
+        if (p.y > canvas.height) p.y = 0;
+    });
+
+    requestAnimationFrame(animate);
+}
+
+animate();
+
+// ===== Lógica botones =====
 const yesBtn = document.getElementById("yesBtn");
 const noBtn = document.getElementById("noBtn");
 const mainBox = document.getElementById("mainBox");
@@ -113,12 +138,19 @@ const gifContainer = document.getElementById("gifContainer");
 const music = document.getElementById("bgMusic");
 
 let musicStarted = false;
+let yesStage = 0;
+
+const yesTexts = [
+    "Sí ☺️",
+    "¿De verdad? 🥹",
+    "Sabía que dirías que sí 💜"
+];
 
 const noTexts = [
 "No 😔",
 "Ay 🤧",
 "¿Cómo? 😱",
-"¿Es broma? 🥲",
+"¿Es broma, verdad? 🥲",
 "¿Por qué? 😭",
 "Piensa bien 🥺",
 "Segura segura? 😔",
@@ -129,21 +161,30 @@ const noTexts = [
 
 let noIndex = 0;
 
+// ===== Botón NO =====
 noBtn.addEventListener("click", () => {
 
     if (noIndex < noTexts.length - 1) {
         noIndex++;
         noBtn.textContent = noTexts[noIndex];
-        yesBtn.classList.add("glow");
+
+        if (noIndex >= 5) {
+            yesBtn.classList.add("glow");
+        }
     } else {
-        gifContainer.innerHTML = 
+        gifContainer.innerHTML =
         `<img src="https://media.giphy.com/media/ISOckXUybVfQ4/giphy.gif">`;
+
         yesBtn.textContent = "No, ya no 🙂‍↔️";
         yesBtn.disabled = true;
+        yesBtn.classList.remove("glow");
     }
 });
 
+// ===== Botón SÍ =====
 yesBtn.addEventListener("click", () => {
+
+    if (yesBtn.disabled) return;
 
     if (!musicStarted) {
         music.volume = 0.3;
@@ -151,32 +192,52 @@ yesBtn.addEventListener("click", () => {
         musicStarted = true;
     }
 
-    mainBox.innerHTML = `
-    <h1>Feliz día, Diana 🖤</h1>
-    <p>
-    Hoy no quiero decirte “feliz San Valentín” como si fuera una fecha cualquiera.<br><br>
+    if (yesStage < yesTexts.length - 1) {
+        yesStage++;
+        yesBtn.textContent = yesTexts[yesStage];
+        yesBtn.classList.add("glow");
+    } else {
 
-    Quiero decirte que me gusta amarte.<br>
-    Me gusta la forma en que estás en mi vida, sin ruido y sin esfuerzo,
-    como algo que simplemente pertenece ahí.<br><br>
+        mainBox.innerHTML = `
+        <h1>Feliz día, Diana 🖤</h1>
+        <p style="white-space: pre-line; text-align:left;">
+Hoy no quiero decirte “feliz San Valentín” como si fuera una fecha cualquiera.
 
-    Me gusta cómo el mundo se siente un poco más en calma cuando pienso en ti.<br><br>
+Quiero decirte que me gusta amarte.
+Me gusta la forma en que estás en mi vida, sin ruido y sin esfuerzo, como algo que simplemente pertenece ahí.
 
-    Estoy contigo porque tu presencia se volvió hogar,
-    porque tu nombre me nace con cariño,
-    porque elegirte no se siente como una decisión difícil,
-    sino como la correcta.<br><br>
+Me gusta cómo el mundo se siente un poco más en calma cuando pienso en ti.
 
-    No quiero una vida donde todo sea sencillo.<br>
-    Quiero una vida donde, pase lo que pase, sea contigo.<br><br>
+No estoy contigo por razones que se puedan enumerar.
 
-    Tú no eres un momento bonito.<br>
-    Eres mi decisión constante.<br><br>
+Estoy contigo porque tu presencia se volvió hogar, porque tu nombre me nace con cariño, porque elegirte no se siente como una decisión difícil, sino como la correcta.
 
-    Me basta con saber que hoy quiero caminar a tu lado,
-    tomarte la mano y seguir.
-    </p>
-    `;
+Hay algo muy bonito en saber que eres tú.
+En saber que no necesito buscar más, ni imaginar otros caminos.
+
+No estoy contigo por lo fácil.
+
+Estoy contigo porque cuando decidimos ir a por todo… fue real.
+
+Me gusta que no somos perfectos.
+Me gusta que construimos con conciencia.
+Me gusta que quieras dar, aportar, y estar a la altura al igual que yo lo intento…
+
+No quiero una vida donde todo sea sencillo.
+
+Quiero una vida donde, pase lo que pase, sea contigo.
+
+Tú no eres un momento bonito.
+
+Eres mi decisión constante.
+
+Me basta con saber que hoy quiero caminar a tu lado, tomarte la mano y seguir.
+
+
+Feliz día, Diana 🖤
+        </p>
+        `;
+    }
 });
 </script>
 
