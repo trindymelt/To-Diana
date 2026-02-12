@@ -8,7 +8,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;500&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
 
 <style>
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
@@ -18,14 +20,14 @@ body {
   background: radial-gradient(circle at top, #2b0f55, #09010f);
 }
 
-/* Partículas */
+/* ===== Partículas ===== */
 canvas {
   position: fixed;
   inset: 0;
   z-index: 0;
 }
 
-/* Contenedor */
+/* ===== Contenedor ===== */
 .container {
   position: relative;
   z-index: 1;
@@ -36,69 +38,68 @@ canvas {
   padding: 20px;
 }
 
+/* ===== Popup ===== */
 .popup {
-  background: rgba(15, 10, 25, 0.85);
-  backdrop-filter: blur(8px);
+  background: rgba(15, 10, 25, 0.88);
+  backdrop-filter: blur(10px);
   color: white;
-  padding: 36px;
-  border-radius: 22px;
+  padding: 50px 40px;
+  border-radius: 28px;
   text-align: center;
-  width: 360px;
-  box-shadow: 0 0 50px rgba(138,43,226,0.45);
+  width: min(500px, 90vw);
+  min-height: 480px;
+  box-shadow: 0 0 70px rgba(138,43,226,0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-/* Texto inicial */
+/* ===== Texto ===== */
 .line1 {
   font-family: 'Playfair Display', serif;
-  font-size: 26px;
-  margin-bottom: 6px;
+  font-size: 28px;
+  margin-bottom: 8px;
 }
 
 .line2 {
   font-family: 'Dancing Script', cursive;
-  font-size: 22px;
-  margin-bottom: 14px;
+  font-size: 24px;
+  margin-bottom: 18px;
   opacity: 0.95;
+  line-height: 1.4;
 }
 
 .line3 {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 500;
 }
 
-/* GIF */
-.gif {
-  margin: 18px 0;
-}
-
-.gif img {
-  width: 120px;
-}
-
-/* Botones */
+/* ===== Botones ===== */
 .buttons {
-  margin-top: 24px;
+  margin-top: 40px;
   display: flex;
-  justify-content: space-between;
+  gap: 24px;
+  justify-content: center;
 }
 
 button {
-  padding: 10px 22px;
+  min-width: 160px;
+  padding: 12px 26px;
   border: none;
-  border-radius: 25px;
+  border-radius: 30px;
   font-size: 16px;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 button:hover {
-  transform: scale(1.05);
+  transform: scale(1.07);
 }
 
 #yes {
   background: linear-gradient(135deg, #7b2cbf, #c77dff);
   color: white;
-  box-shadow: 0 0 15px rgba(199,125,255,0.6);
+  box-shadow: 0 0 18px rgba(199,125,255,0.6);
 }
 
 #no {
@@ -115,18 +116,13 @@ button:hover {
 <div class="container">
   <div class="popup" id="popup">
 
-    <!-- INICIO -->
+    <!-- TEXTO INICIAL -->
     <div class="line1">Diana,</div>
     <div class="line2">
       después de tantos videos y señales,<br>
       creo que ya sabes qué voy a preguntar… de verdad.
     </div>
     <div class="line3"><strong>¿Quieres ser mi San Valentín?</strong></div>
-
-    <!-- GIF (puedes cambiar el src cuando quieras) -->
-    <div class="gif">
-      <img src="https://media.giphy.com/media/l4FGuhL4U2WyjdkaY/giphy.gif" alt="gif lindo">
-    </div>
 
     <!-- BOTONES -->
     <div class="buttons">
@@ -151,14 +147,14 @@ window.addEventListener("resize", resize);
 resize();
 
 const particles = [];
-for (let i = 0; i < 60; i++) {
+for (let i = 0; i < 70; i++) {
   particles.push({
     x: Math.random() * w,
     y: Math.random() * h,
     r: Math.random() * 1.5 + 0.5,
-    vx: Math.random() * 0.3 - 0.15,
-    vy: Math.random() * 0.3 - 0.15,
-    o: Math.random() * 0.6 + 0.2
+    vx: Math.random() * 0.25 - 0.125,
+    vy: Math.random() * 0.25 - 0.125,
+    o: Math.random() * 0.6 + 0.25
   });
 }
 
@@ -218,7 +214,7 @@ yesBtn.addEventListener("click", () => {
   } else if (yesCount === 2) {
     yesBtn.textContent = "¿En serio en serio? 🥹";
   } else {
-    // AQUÍ VA TU TEXTO FINAL (PUEDES EDITARLO)
+    // PANTALLA FINAL (EDITA AQUÍ TU TEXTO)
     document.body.innerHTML = `
       <div style="
         height:100vh;
@@ -233,8 +229,8 @@ yesBtn.addEventListener("click", () => {
       ">
         <div>
           <h1>💜</h1>
-          <p style="font-size:22px; font-family:'Dancing Script', cursive;">
-            (Aquí va lo que tú quieras decirle)
+          <p style="font-size:24px; font-family:'Dancing Script', cursive; line-height:1.5;">
+            (Aquí escribe lo que quieras decirle 💜)
           </p>
         </div>
       </div>
