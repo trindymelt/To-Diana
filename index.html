@@ -10,186 +10,225 @@
 <style>
 * { box-sizing: border-box; }
 
-body{
-  margin:0;
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background: radial-gradient(circle at top, #3b1e7a, #12052e);
-  overflow:hidden;
-  font-family:'Montserrat', sans-serif;
-  color:white;
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Montserrat', sans-serif;
+  overflow: hidden;
+  background: radial-gradient(circle at top, #2b0f55, #09010f);
+  color: white;
 }
 
-/* Fondo de estrellas */
-body::before{
-  content:"";
-  position:fixed;
-  inset:-50%;
-  background-image: radial-gradient(white 1px, transparent 1px);
-  background-size:40px 40px;
-  opacity:0.15;
-  animation:stars 80s linear infinite;
+/* Canvas partículas */
+canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
 }
 
-@keyframes stars{
-  from { transform:translateY(0); }
-  to { transform:translateY(-600px); }
+/* Contenedor */
+.container {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 }
 
 /* Tarjeta */
-.card{
-  position:relative;
-  background:#1b0c3a;
-  width:min(500px, 92vw);
-  padding:45px 35px;
-  border-radius:28px;
-  text-align:center;
-  box-shadow:0 0 50px rgba(160,120,255,0.6);
-  z-index:2;
+.card {
+  background: rgba(15, 10, 25, 0.88);
+  backdrop-filter: blur(10px);
+  width: min(520px, 94vw);
+  padding: 50px 40px;
+  border-radius: 30px;
+  text-align: center;
+  box-shadow: 0 0 60px rgba(160,120,255,0.5);
 }
 
 /* Texto inicial */
-h1{
-  font-family:'Playfair Display', serif;
-  font-size:32px;
-  margin-bottom:10px;
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 30px;
+  margin-bottom: 8px;
 }
 
-.intro{
-  font-family:'Dancing Script', cursive;
-  font-size:24px;
-  margin-bottom:22px;
-  line-height:1.4;
+.intro {
+  font-family: 'Dancing Script', cursive;
+  font-size: 24px;
+  margin-bottom: 18px;
+  line-height: 1.4;
 }
 
-.question{
-  font-size:22px;
-  font-weight:600;
-  margin-bottom:28px;
+.question {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 30px;
 }
 
 /* Botones */
-.buttons{
-  display:flex;
-  justify-content:center;
-  gap:24px;
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
 }
 
-button{
-  min-width:160px;
-  padding:12px 26px;
-  border:none;
-  border-radius:28px;
-  font-size:16px;
-  cursor:pointer;
-  transition:0.3s;
+button {
+  min-width: 160px;
+  padding: 12px 26px;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
-#yesBtn{
-  background:#a855f7;
-  color:white;
-  box-shadow:0 0 15px rgba(200,160,255,0.5);
+#yesBtn {
+  background: linear-gradient(135deg, #7b2cbf, #c77dff);
+  color: white;
+  box-shadow: 0 0 15px rgba(199,125,255,0.6);
 }
 
-#noBtn{
-  background:#444;
-  color:white;
+#noBtn {
+  background: #444;
+  color: white;
+}
+
+/* GIF triste */
+.sad-gif {
+  display: none;
+  margin-top: 25px;
+}
+
+.sad-gif img {
+  width: 200px;
+  border-radius: 16px;
 }
 
 /* Carta final */
-.letter{
-  display:none;
-  max-height:70vh;
-  overflow-y:auto;
-  text-align:left;
-  margin-top:25px;
-  padding-right:10px;
-  font-size:16px;
-  line-height:1.7;
-  animation:fadeIn 1.5s ease forwards;
+.letter {
+  display: none;
+  max-height: 70vh;
+  overflow-y: auto;
+  margin-top: 30px;
+  text-align: left;
+  font-size: 16px;
+  line-height: 1.7;
+  animation: fadeIn 1.5s ease forwards;
 }
 
-@keyframes fadeIn{
-  from { opacity:0; transform:translateY(10px); }
-  to { opacity:1; transform:none; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
 }
 
-.letter p{
-  margin-bottom:14px;
-}
+.letter p { margin-bottom: 14px; }
 </style>
 </head>
 
 <body>
 
-<div class="card" id="card">
+<canvas id="particles"></canvas>
 
-<h1>Diana,</h1>
+<div class="container">
+  <div class="card">
 
-<div class="intro">
-después de tantos videos y señales,<br>
-creo que ya sabes qué voy a preguntar… de verdad.
+    <h1>Diana,</h1>
+
+    <div class="intro">
+      después de tantos videos y señales,<br>
+      creo que ya sabes qué voy a preguntar… de verdad.
+    </div>
+
+    <div class="question" id="question">
+      ¿Quieres ser mi San Valentín?
+    </div>
+
+    <div class="buttons" id="buttons">
+      <button id="yesBtn">Sí ☺️</button>
+      <button id="noBtn">No 😔</button>
+    </div>
+
+    <div class="sad-gif" id="sadGif">
+      <img src="https://media.giphy.com/media/ISOckXUybVfQ4/giphy.gif" alt="triste">
+    </div>
+
+    <div class="letter" id="letter">
+      <!-- CARTA (SIN REPETIR EL INICIO) -->
+      <p>Hoy no quiero decirte “Feliz San Valentín” como si fuera una fecha cualquiera.</p>
+      <p>Quiero decirte que me gusta amarte. Me gusta la forma en que estás en mi vida, sin ruido y sin esfuerzo, como algo que simplemente pertenece ahí.</p>
+      <p>Me gusta cómo el mundo se siente un poco más en calma cuando pienso en ti.</p>
+      <p>No estoy contigo por razones que se puedan enumerar.</p>
+      <p>Estoy contigo porque tu presencia se volvió hogar. Porque tu nombre me nace con cariño. Porque elegirte no se siente como una decisión difícil… sino como la correcta.</p>
+      <p>Hay algo muy bonito en saber que eres tú. En saber que no necesito buscar más ni imaginar otros caminos.</p>
+      <p>No estoy contigo por lo fácil.</p>
+      <p>Estoy contigo porque cuando decidimos ir a por todo… fue real.</p>
+      <p>Me gusta que no somos perfectos. Me gusta que construimos con conciencia. Me gusta que quieras dar, aportar y estar a la altura, al igual que yo lo intento.</p>
+      <p>No quiero una vida donde todo sea sencillo.</p>
+      <p>Quiero una vida donde, pase lo que pase, sea contigo.</p>
+      <p><strong>Eres mi decisión constante.</strong></p>
+      <p><strong>Feliz día, Diana 🖤</strong></p>
+    </div>
+
+  </div>
 </div>
 
-<div class="question" id="question">
-¿Quieres ser mi San Valentín?
-</div>
-
-<div class="buttons" id="buttons">
-  <button id="yesBtn">Sí ☺️</button>
-  <button id="noBtn">No 😔</button>
-</div>
-
-<div class="letter" id="letter">
-
-<p>Hoy no quiero decirte “Feliz San Valentín” como si fuera una fecha cualquiera.</p>
-
-<p>Quiero decirte que me gusta amarte.  
-Me gusta la forma en que estás en mi vida, sin ruido y sin esfuerzo, como algo que simplemente pertenece ahí.</p>
-
-<p>Me gusta cómo el mundo se siente un poco más en calma cuando pienso en ti.</p>
-
-<p>No estoy contigo por razones que se puedan enumerar.</p>
-
-<p>Estoy contigo porque tu presencia se volvió hogar.  
-Porque tu nombre me nace con cariño.  
-Porque elegirte no se siente como una decisión difícil… sino como la correcta.</p>
-
-<p>Hay algo muy bonito en saber que eres tú.  
-En saber que no necesito buscar más ni imaginar otros caminos.</p>
-
-<p>No estoy contigo por lo fácil.</p>
-
-<p>Estoy contigo porque cuando decidimos ir a por todo… fue real.</p>
-
-<p>Me gusta que no somos perfectos.  
-Me gusta que construimos con conciencia.  
-Me gusta que quieras dar, aportar y estar a la altura, al igual que yo lo intento.</p>
-
-<p>No quiero una vida donde todo sea sencillo.</p>
-
-<p>Quiero una vida donde, pase lo que pase, sea contigo.</p>
-
-<p>Tú no eres un momento bonito.</p>
-
-<p><strong>Eres mi decisión constante.</strong></p>
-
-<p>Y hoy me basta con saber que quiero caminar a tu lado, tomarte la mano… y seguir.</p>
-
-<p><strong>Feliz día, Diana 🖤</strong></p>
-
-</div>
-
-</div>
+<!-- Música (ejemplo, cambia el src por tu canción) -->
+<audio id="music" src="cancion.mp3"></audio>
 
 <script>
+/* ===== Partículas ===== */
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+let w, h;
+function resize() {
+  w = canvas.width = window.innerWidth;
+  h = canvas.height = window.innerHeight;
+}
+window.addEventListener("resize", resize);
+resize();
+
+const particles = [];
+for (let i = 0; i < 70; i++) {
+  particles.push({
+    x: Math.random() * w,
+    y: Math.random() * h,
+    r: Math.random() * 1.5 + 0.5,
+    vx: Math.random() * 0.25 - 0.125,
+    vy: Math.random() * 0.25 - 0.125,
+    o: Math.random() * 0.6 + 0.25
+  });
+}
+
+function animate() {
+  ctx.clearRect(0, 0, w, h);
+  particles.forEach(p => {
+    p.x += p.vx;
+    p.y += p.vy;
+    if (p.x < 0) p.x = w;
+    if (p.x > w) p.x = 0;
+    if (p.y < 0) p.y = h;
+    if (p.y > h) p.y = 0;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(200,160,255,${p.o})`;
+    ctx.fill();
+  });
+  requestAnimationFrame(animate);
+}
+animate();
+
+/* ===== Lógica botones ===== */
 const noBtn = document.getElementById("noBtn");
 const yesBtn = document.getElementById("yesBtn");
+const sadGif = document.getElementById("sadGif");
 const letter = document.getElementById("letter");
-const question = document.getElementById("question");
 const buttons = document.getElementById("buttons");
+const question = document.getElementById("question");
+const music = document.getElementById("music");
 
 const noTexts = [
   "No 😔",
@@ -197,7 +236,6 @@ const noTexts = [
   "¿Cómo? 😱",
   "Es broma, ¿verdad? 🥲",
   "¿Por qué? 😭",
-  "¿De verdad no? 🥺",
   "Me duele un poco 💔",
   "Piénsalo bien… 🥹",
   "Última oportunidad 😶",
@@ -209,35 +247,26 @@ let yesCount = 0;
 
 noBtn.addEventListener("click", () => {
   noCount++;
-
   if (noCount < noTexts.length) {
     noBtn.textContent = noTexts[noCount];
+  } else {
+    sadGif.style.display = "block";
+    noBtn.style.display = "none";
   }
-
-  /* El Sí brilla más */
-  const glow = 15 + noCount * 6;
-  yesBtn.style.boxShadow = `0 0 ${glow}px rgba(220,180,255,0.9)`;
-
-  /* Bloqueo del Sí después de la mitad */
-  if (noCount >= Math.ceil(noTexts.length / 2)) {
-    yesBtn.disabled = true;
-    yesBtn.textContent = "No, ya no 🙂‍↔️";
-    yesBtn.style.background = "#555";
-    yesBtn.style.boxShadow = "none";
-    yesBtn.style.cursor = "default";
-  }
+  yesBtn.style.boxShadow = `0 0 ${15 + noCount * 6}px rgba(220,180,255,0.9)`;
 });
 
 yesBtn.addEventListener("click", () => {
   yesCount++;
-
   if (yesCount === 1) {
     yesBtn.textContent = "¿De verdad? ☺️";
   } else if (yesCount === 2) {
     yesBtn.textContent = "¿En serio en serio? 🥹";
   } else {
+    music.play();
     question.style.display = "none";
     buttons.style.display = "none";
+    sadGif.style.display = "none";
     letter.style.display = "block";
   }
 });
