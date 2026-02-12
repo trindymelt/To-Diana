@@ -2,240 +2,224 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Para Diana</title>
 
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;500&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+<!-- Fuentes bonitas -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Dancing+Script:wght@500&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
-* {
-  box-sizing: border-box;
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background: radial-gradient(circle at top, #3b1e7a, #12052e);
+    overflow:hidden;
+    font-family: 'Montserrat', sans-serif;
+    color:white;
 }
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  font-family: 'Poppins', sans-serif;
-  overflow: hidden;
-  background: radial-gradient(circle at top, #2b0f55, #09010f);
+/* Partículas */
+body::before{
+    content:"";
+    position:absolute;
+    width:200%;
+    height:200%;
+    background-image: radial-gradient(white 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity:0.15;
+    animation: moveStars 60s linear infinite;
 }
 
-/* ===== Partículas ===== */
-canvas {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
+@keyframes moveStars{
+    from {transform:translateY(0);}
+    to {transform:translateY(-500px);}
 }
 
-/* ===== Contenedor ===== */
-.container {
-  position: relative;
-  z-index: 1;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
+.card{
+    position:relative;
+    background:#1b0c3a;
+    width:420px;
+    padding:40px 30px;
+    border-radius:25px;
+    text-align:center;
+    box-shadow:0 0 40px rgba(150,100,255,0.6);
+    z-index:2;
+    transition:0.4s ease;
 }
 
-/* ===== Popup ===== */
-.popup {
-  background: rgba(15, 10, 25, 0.88);
-  backdrop-filter: blur(10px);
-  color: white;
-  padding: 50px 40px;
-  border-radius: 28px;
-  text-align: center;
-  width: min(500px, 90vw);
-  min-height: 480px;
-  box-shadow: 0 0 70px rgba(138,43,226,0.5);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+h1{
+    font-family:'Playfair Display', serif;
+    font-size:32px;
+    margin-bottom:10px;
 }
 
-/* ===== Texto ===== */
-.line1 {
-  font-family: 'Playfair Display', serif;
-  font-size: 28px;
-  margin-bottom: 8px;
+.intro{
+    font-family:'Dancing Script', cursive;
+    font-size:22px;
+    margin-bottom:25px;
 }
 
-.line2 {
-  font-family: 'Dancing Script', cursive;
-  font-size: 24px;
-  margin-bottom: 18px;
-  opacity: 0.95;
-  line-height: 1.4;
+.question{
+    font-size:22px;
+    font-weight:600;
+    margin-bottom:25px;
 }
 
-.line3 {
-  font-size: 22px;
-  font-weight: 500;
+.buttons{
+    display:flex;
+    justify-content:space-around;
+    margin-top:20px;
 }
 
-/* ===== Botones ===== */
-.buttons {
-  margin-top: 40px;
-  display: flex;
-  gap: 24px;
-  justify-content: center;
+button{
+    padding:12px 25px;
+    border:none;
+    border-radius:20px;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
 }
 
-button {
-  min-width: 160px;
-  padding: 12px 26px;
-  border: none;
-  border-radius: 30px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+#yesBtn{
+    background:#a855f7;
+    color:white;
+    box-shadow:0 0 15px #c084fc;
 }
 
-button:hover {
-  transform: scale(1.07);
+#yesBtn:hover{
+    transform:scale(1.1);
 }
 
-#yes {
-  background: linear-gradient(135deg, #7b2cbf, #c77dff);
-  color: white;
-  box-shadow: 0 0 18px rgba(199,125,255,0.6);
+#noBtn{
+    background:#444;
+    color:white;
 }
 
-#no {
-  background: #2a2a2a;
-  color: #e0e0e0;
+.letter{
+    display:none;
+    margin-top:20px;
+    text-align:left;
+    font-size:15px;
+    line-height:1.7;
+    animation:fadeIn 1.5s ease forwards;
+}
+
+@keyframes fadeIn{
+    from{opacity:0;}
+    to{opacity:1;}
+}
+
+.gif{
+    display:none;
+    margin-top:20px;
+}
+
+.gif img{
+    width:200px;
+    border-radius:15px;
 }
 </style>
 </head>
-
 <body>
 
-<canvas id="particles"></canvas>
+<div class="card" id="card">
 
-<div class="container">
-  <div class="popup" id="popup">
+<h1>Diana,</h1>
 
-    <!-- TEXTO INICIAL -->
-    <div class="line1">Diana,</div>
-    <div class="line2">
-      después de tantos videos y señales,<br>
-      creo que ya sabes qué voy a preguntar… de verdad.
-    </div>
-    <div class="line3"><strong>¿Quieres ser mi San Valentín?</strong></div>
+<div class="intro">
+después de tantos videos y señales,<br>
+creo que ya sabes qué voy a preguntar… de verdad.
+</div>
 
-    <!-- BOTONES -->
-    <div class="buttons">
-      <button id="yes">Sí ☺️</button>
-      <button id="no">No 😔</button>
-    </div>
+<div class="question">
+¿Quieres ser mi San Valentín?
+</div>
 
-  </div>
+<div class="buttons">
+<button id="yesBtn">Sí ☺️</button>
+<button id="noBtn">No 😔</button>
+</div>
+
+<div class="gif" id="sadGif">
+<img src="https://media.giphy.com/media/ISOckXUybVfQ4/giphy.gif" alt="sad gif">
+</div>
+
+<div class="letter" id="letter">
+
+<p>Hoy no quiero decirte “Feliz San Valentín” como si fuera una fecha cualquiera.</p>
+
+<p>Quiero decirte que me gusta amarte.  
+Me gusta la forma en que estás en mi vida, sin ruido y sin esfuerzo, como algo que simplemente pertenece ahí.</p>
+
+<p>Me gusta cómo el mundo se siente un poco más en calma cuando pienso en ti.</p>
+
+<p>No estoy contigo por razones que se puedan enumerar.</p>
+
+<p>Estoy contigo porque tu presencia se volvió hogar.  
+Porque tu nombre me nace con cariño.  
+Porque elegirte no se siente como una decisión difícil… sino como la correcta.</p>
+
+<p>Hay algo muy bonito en saber que eres tú.  
+En saber que no necesito buscar más ni imaginar otros caminos.</p>
+
+<p>No estoy contigo por lo fácil.</p>
+
+<p>Estoy contigo porque cuando decidimos ir a por todo… fue real.</p>
+
+<p>Me gusta que no somos perfectos.  
+Me gusta que construimos con conciencia.  
+Me gusta que quieras dar, aportar y estar a la altura, al igual que yo lo intento.</p>
+
+<p>No quiero una vida donde todo sea sencillo.</p>
+
+<p>Quiero una vida donde, pase lo que pase, sea contigo.</p>
+
+<p>Tú no eres un momento bonito.</p>
+
+<p><strong>Eres mi decisión constante.</strong></p>
+
+<p>Y hoy me basta con saber que quiero caminar a tu lado, tomarte la mano… y seguir.</p>
+
+<p><strong>Feliz día, Diana 🖤</strong></p>
+
+</div>
+
 </div>
 
 <script>
-/* ===== PARTÍCULAS ===== */
-const canvas = document.getElementById("particles");
-const ctx = canvas.getContext("2d");
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const letter = document.getElementById("letter");
+const sadGif = document.getElementById("sadGif");
 
-let w, h;
-function resize() {
-  w = canvas.width = window.innerWidth;
-  h = canvas.height = window.innerHeight;
-}
-window.addEventListener("resize", resize);
-resize();
-
-const particles = [];
-for (let i = 0; i < 70; i++) {
-  particles.push({
-    x: Math.random() * w,
-    y: Math.random() * h,
-    r: Math.random() * 1.5 + 0.5,
-    vx: Math.random() * 0.25 - 0.125,
-    vy: Math.random() * 0.25 - 0.125,
-    o: Math.random() * 0.6 + 0.25
-  });
-}
-
-function animateParticles() {
-  ctx.clearRect(0, 0, w, h);
-  particles.forEach(p => {
-    p.x += p.vx;
-    p.y += p.vy;
-
-    if (p.x < 0) p.x = w;
-    if (p.x > w) p.x = 0;
-    if (p.y < 0) p.y = h;
-    if (p.y > h) p.y = 0;
-
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(200,160,255,${p.o})`;
-    ctx.fill();
-  });
-  requestAnimationFrame(animateParticles);
-}
-animateParticles();
-
-/* ===== BOTÓN NO (10 FRASES) ===== */
-const noTexts = [
-  "No 😔",
-  "Ay 🤧",
-  "¿Cómo? 😱",
-  "¿Segura? 🥲",
-  "Piénsalo bien 🥺",
-  "Me duele 😭",
-  "Un poquito aunque sea 🥹",
-  "Prometo chocolate 🍫",
-  "Última oportunidad 😶",
-  "Está bien… pero me quedaré triste 💔"
+let noTexts = [
+"No 😔",
+"Ay 🤧",
+"¿Cómo? 😱",
+"Es broma, ¿verdad? 🥲",
+"¿Por qué? 😭"
 ];
 
-let noCount = 0;
-const noBtn = document.getElementById("no");
+let index = 0;
 
 noBtn.addEventListener("click", () => {
-  noCount++;
-  if (noCount < noTexts.length) {
-    noBtn.textContent = noTexts[noCount];
-  }
+    index++;
+    if(index < noTexts.length){
+        noBtn.textContent = noTexts[index];
+    } else {
+        sadGif.style.display = "block";
+        noBtn.style.display = "none";
+    }
 });
 
-/* ===== BOTÓN SÍ (3 ETAPAS) ===== */
-const yesBtn = document.getElementById("yes");
-let yesCount = 0;
-
 yesBtn.addEventListener("click", () => {
-  yesCount++;
-
-  if (yesCount === 1) {
-    yesBtn.textContent = "¿De verdad? ☺️";
-  } else if (yesCount === 2) {
-    yesBtn.textContent = "¿En serio en serio? 🥹";
-  } else {
-    // PANTALLA FINAL (EDITA AQUÍ TU TEXTO)
-    document.body.innerHTML = `
-      <div style="
-        height:100vh;
-        display:flex;
-        justify-content:center;
-        align-items:center;
-        text-align:center;
-        font-family:'Playfair Display', serif;
-        color:white;
-        background: radial-gradient(circle at top, #2b0f55, #09010f);
-        padding:40px;
-      ">
-        <div>
-          <h1>💜</h1>
-          <p style="font-size:24px; font-family:'Dancing Script', cursive; line-height:1.5;">
-            (Aquí escribe lo que quieras decirle 💜)
-          </p>
-        </div>
-      </div>
-    `;
-  }
+    document.querySelector(".question").style.display = "none";
+    document.querySelector(".buttons").style.display = "none";
+    sadGif.style.display = "none";
+    letter.style.display = "block";
 });
 </script>
 
