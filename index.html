@@ -19,14 +19,12 @@ body{
   color:white;
 }
 
-/* Canvas partículas */
 canvas{
   position:fixed;
   inset:0;
   z-index:0;
 }
 
-/* Layout */
 .container{
   position:relative;
   z-index:1;
@@ -37,7 +35,6 @@ canvas{
   padding:20px;
 }
 
-/* Tarjeta */
 .card{
   background:rgba(15,10,25,.88);
   backdrop-filter:blur(10px);
@@ -48,7 +45,6 @@ canvas{
   box-shadow:0 0 60px rgba(160,120,255,.5);
 }
 
-/* Texto inicial */
 h1{
   font-family:'Playfair Display',serif;
   font-size:30px;
@@ -68,7 +64,6 @@ h1{
   margin-bottom:30px;
 }
 
-/* Botones */
 .buttons{
   display:flex;
   justify-content:center;
@@ -96,7 +91,6 @@ button{
   color:white;
 }
 
-/* GIF triste */
 .sad-gif{
   display:none;
   margin-top:25px;
@@ -107,7 +101,6 @@ button{
   border-radius:16px;
 }
 
-/* Carta final */
 .letter{
   display:none;
   max-height:70vh;
@@ -135,27 +128,30 @@ button{
 <div class="container">
 <div class="card">
 
-<h1>Diana,</h1>
+<!-- 🔹 PRELUDIO COMPLETO -->
+<div id="prelude">
+  <h1>Diana,</h1>
 
-<div class="intro">
-después de tantos videos y señales,<br>
-creo que ya sabes qué voy a preguntar… de verdad.
+  <div class="intro">
+    después de tantos videos y señales,<br>
+    creo que ya sabes qué voy a preguntar… de verdad.
+  </div>
+
+  <div class="question" id="question">
+    ¿Quieres ser mi San Valentín?
+  </div>
+
+  <div class="buttons" id="buttons">
+    <button id="yesBtn">Sí ☺️</button>
+    <button id="noBtn">No 😔</button>
+  </div>
+
+  <div class="sad-gif" id="sadGif">
+    <img src="https://media.giphy.com/media/ISOckXUybVfQ4/giphy.gif" alt="triste">
+  </div>
 </div>
 
-<div class="question" id="question">
-¿Quieres ser mi San Valentín?
-</div>
-
-<div class="buttons" id="buttons">
-  <button id="yesBtn">Sí ☺️</button>
-  <button id="noBtn">No 😔</button>
-</div>
-
-<div class="sad-gif" id="sadGif">
-  <img src="https://media.giphy.com/media/ISOckXUybVfQ4/giphy.gif" alt="triste">
-</div>
-
-<!-- CARTA: SIN PRELUDIO -->
+<!-- 🔹 CARTA FINAL (SIN PRELUDIO) -->
 <div class="letter" id="letter">
   <p>Hoy no quiero decirte “Feliz San Valentín” como si fuera una fecha cualquiera.</p>
   <p>Quiero decirte que me gusta amarte. Me gusta la forma en que estás en mi vida, sin ruido y sin esfuerzo, como algo que simplemente pertenece ahí.</p>
@@ -207,13 +203,12 @@ const particles=[...Array(70)].map(()=>({
   requestAnimationFrame(animate);
 })();
 
-/* Lógica botones */
+/* Lógica */
 const noBtn=document.getElementById("noBtn");
 const yesBtn=document.getElementById("yesBtn");
 const sadGif=document.getElementById("sadGif");
 const letter=document.getElementById("letter");
-const buttons=document.getElementById("buttons");
-const question=document.getElementById("question");
+const prelude=document.getElementById("prelude");
 const music=document.getElementById("music");
 
 const noTexts=[
@@ -240,7 +235,6 @@ noBtn.addEventListener("click",()=>{
     yesBtn.textContent="No, ya no 🙂‍↔️";
     yesBtn.style.background="#555";
     yesBtn.style.boxShadow="none";
-    yesBtn.style.cursor="default";
   }
 });
 
@@ -253,9 +247,7 @@ yesBtn.addEventListener("click",()=>{
     yesBtn.textContent="¿En serio en serio? 🥹";
   }else{
     music.play();
-    question.style.display="none";
-    buttons.style.display="none";
-    sadGif.style.display="none";
+    prelude.style.display="none";   // 👈 CLAVE
     letter.style.display="block";
   }
 });
