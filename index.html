@@ -5,124 +5,123 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Para Diana</title>
 
-<!-- Fuentes bonitas -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Dancing+Script:wght@500&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
+* { box-sizing: border-box; }
+
 body{
-    margin:0;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background: radial-gradient(circle at top, #3b1e7a, #12052e);
-    overflow:hidden;
-    font-family: 'Montserrat', sans-serif;
-    color:white;
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background: radial-gradient(circle at top, #3b1e7a, #12052e);
+  overflow:hidden;
+  font-family:'Montserrat', sans-serif;
+  color:white;
 }
 
-/* Partículas */
+/* Fondo de estrellas */
 body::before{
-    content:"";
-    position:absolute;
-    width:200%;
-    height:200%;
-    background-image: radial-gradient(white 1px, transparent 1px);
-    background-size: 40px 40px;
-    opacity:0.15;
-    animation: moveStars 60s linear infinite;
+  content:"";
+  position:fixed;
+  inset:-50%;
+  background-image: radial-gradient(white 1px, transparent 1px);
+  background-size:40px 40px;
+  opacity:0.15;
+  animation:stars 80s linear infinite;
 }
 
-@keyframes moveStars{
-    from {transform:translateY(0);}
-    to {transform:translateY(-500px);}
+@keyframes stars{
+  from { transform:translateY(0); }
+  to { transform:translateY(-600px); }
 }
 
+/* Tarjeta */
 .card{
-    position:relative;
-    background:#1b0c3a;
-    width:420px;
-    padding:40px 30px;
-    border-radius:25px;
-    text-align:center;
-    box-shadow:0 0 40px rgba(150,100,255,0.6);
-    z-index:2;
-    transition:0.4s ease;
+  position:relative;
+  background:#1b0c3a;
+  width:min(500px, 92vw);
+  padding:45px 35px;
+  border-radius:28px;
+  text-align:center;
+  box-shadow:0 0 50px rgba(160,120,255,0.6);
+  z-index:2;
 }
 
+/* Texto inicial */
 h1{
-    font-family:'Playfair Display', serif;
-    font-size:32px;
-    margin-bottom:10px;
+  font-family:'Playfair Display', serif;
+  font-size:32px;
+  margin-bottom:10px;
 }
 
 .intro{
-    font-family:'Dancing Script', cursive;
-    font-size:22px;
-    margin-bottom:25px;
+  font-family:'Dancing Script', cursive;
+  font-size:24px;
+  margin-bottom:22px;
+  line-height:1.4;
 }
 
 .question{
-    font-size:22px;
-    font-weight:600;
-    margin-bottom:25px;
+  font-size:22px;
+  font-weight:600;
+  margin-bottom:28px;
 }
 
+/* Botones */
 .buttons{
-    display:flex;
-    justify-content:space-around;
-    margin-top:20px;
+  display:flex;
+  justify-content:center;
+  gap:24px;
 }
 
 button{
-    padding:12px 25px;
-    border:none;
-    border-radius:20px;
-    font-size:16px;
-    cursor:pointer;
-    transition:0.3s;
+  min-width:160px;
+  padding:12px 26px;
+  border:none;
+  border-radius:28px;
+  font-size:16px;
+  cursor:pointer;
+  transition:0.3s;
 }
 
 #yesBtn{
-    background:#a855f7;
-    color:white;
-    box-shadow:0 0 15px #c084fc;
-}
-
-#yesBtn:hover{
-    transform:scale(1.1);
+  background:#a855f7;
+  color:white;
+  box-shadow:0 0 15px rgba(200,160,255,0.5);
 }
 
 #noBtn{
-    background:#444;
-    color:white;
+  background:#444;
+  color:white;
 }
 
+/* Carta final */
 .letter{
-    display:none;
-    margin-top:20px;
-    text-align:left;
-    font-size:15px;
-    line-height:1.7;
-    animation:fadeIn 1.5s ease forwards;
+  display:none;
+  max-height:70vh;
+  overflow-y:auto;
+  text-align:left;
+  margin-top:25px;
+  padding-right:10px;
+  font-size:16px;
+  line-height:1.7;
+  animation:fadeIn 1.5s ease forwards;
 }
 
 @keyframes fadeIn{
-    from{opacity:0;}
-    to{opacity:1;}
+  from { opacity:0; transform:translateY(10px); }
+  to { opacity:1; transform:none; }
 }
 
-.gif{
-    display:none;
-    margin-top:20px;
-}
-
-.gif img{
-    width:200px;
-    border-radius:15px;
+.letter p{
+  margin-bottom:14px;
 }
 </style>
 </head>
+
 <body>
 
 <div class="card" id="card">
@@ -134,17 +133,13 @@ después de tantos videos y señales,<br>
 creo que ya sabes qué voy a preguntar… de verdad.
 </div>
 
-<div class="question">
+<div class="question" id="question">
 ¿Quieres ser mi San Valentín?
 </div>
 
-<div class="buttons">
-<button id="yesBtn">Sí ☺️</button>
-<button id="noBtn">No 😔</button>
-</div>
-
-<div class="gif" id="sadGif">
-<img src="https://media.giphy.com/media/ISOckXUybVfQ4/giphy.gif" alt="sad gif">
+<div class="buttons" id="buttons">
+  <button id="yesBtn">Sí ☺️</button>
+  <button id="noBtn">No 😔</button>
 </div>
 
 <div class="letter" id="letter">
@@ -193,33 +188,58 @@ Me gusta que quieras dar, aportar y estar a la altura, al igual que yo lo intent
 const noBtn = document.getElementById("noBtn");
 const yesBtn = document.getElementById("yesBtn");
 const letter = document.getElementById("letter");
-const sadGif = document.getElementById("sadGif");
+const question = document.getElementById("question");
+const buttons = document.getElementById("buttons");
 
-let noTexts = [
-"No 😔",
-"Ay 🤧",
-"¿Cómo? 😱",
-"Es broma, ¿verdad? 🥲",
-"¿Por qué? 😭"
+const noTexts = [
+  "No 😔",
+  "Ay 🤧",
+  "¿Cómo? 😱",
+  "Es broma, ¿verdad? 🥲",
+  "¿Por qué? 😭",
+  "¿De verdad no? 🥺",
+  "Me duele un poco 💔",
+  "Piénsalo bien… 🥹",
+  "Última oportunidad 😶",
+  "Está bien…"
 ];
 
-let index = 0;
+let noCount = 0;
+let yesCount = 0;
 
 noBtn.addEventListener("click", () => {
-    index++;
-    if(index < noTexts.length){
-        noBtn.textContent = noTexts[index];
-    } else {
-        sadGif.style.display = "block";
-        noBtn.style.display = "none";
-    }
+  noCount++;
+
+  if (noCount < noTexts.length) {
+    noBtn.textContent = noTexts[noCount];
+  }
+
+  /* El Sí brilla más */
+  const glow = 15 + noCount * 6;
+  yesBtn.style.boxShadow = `0 0 ${glow}px rgba(220,180,255,0.9)`;
+
+  /* Bloqueo del Sí después de la mitad */
+  if (noCount >= Math.ceil(noTexts.length / 2)) {
+    yesBtn.disabled = true;
+    yesBtn.textContent = "No, ya no 🙂‍↔️";
+    yesBtn.style.background = "#555";
+    yesBtn.style.boxShadow = "none";
+    yesBtn.style.cursor = "default";
+  }
 });
 
 yesBtn.addEventListener("click", () => {
-    document.querySelector(".question").style.display = "none";
-    document.querySelector(".buttons").style.display = "none";
-    sadGif.style.display = "none";
+  yesCount++;
+
+  if (yesCount === 1) {
+    yesBtn.textContent = "¿De verdad? ☺️";
+  } else if (yesCount === 2) {
+    yesBtn.textContent = "¿En serio en serio? 🥹";
+  } else {
+    question.style.display = "none";
+    buttons.style.display = "none";
     letter.style.display = "block";
+  }
 });
 </script>
 
