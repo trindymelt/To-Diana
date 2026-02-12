@@ -8,123 +8,123 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Dancing+Script:wght@500&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
-* { box-sizing: border-box; }
+*{box-sizing:border-box}
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  font-family: 'Montserrat', sans-serif;
-  overflow: hidden;
-  background: radial-gradient(circle at top, #2b0f55, #09010f);
-  color: white;
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:'Montserrat',sans-serif;
+  overflow:hidden;
+  background:radial-gradient(circle at top,#2b0f55,#09010f);
+  color:white;
 }
 
 /* Canvas partículas */
-canvas {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
+canvas{
+  position:fixed;
+  inset:0;
+  z-index:0;
 }
 
-/* Contenedor */
-.container {
-  position: relative;
-  z-index: 1;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
+/* Layout */
+.container{
+  position:relative;
+  z-index:1;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
 }
 
 /* Tarjeta */
-.card {
-  background: rgba(15, 10, 25, 0.88);
-  backdrop-filter: blur(10px);
-  width: min(520px, 94vw);
-  padding: 50px 40px;
-  border-radius: 30px;
-  text-align: center;
-  box-shadow: 0 0 60px rgba(160,120,255,0.5);
+.card{
+  background:rgba(15,10,25,.88);
+  backdrop-filter:blur(10px);
+  width:min(520px,94vw);
+  padding:50px 40px;
+  border-radius:30px;
+  text-align:center;
+  box-shadow:0 0 60px rgba(160,120,255,.5);
 }
 
 /* Texto inicial */
-h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: 30px;
-  margin-bottom: 8px;
+h1{
+  font-family:'Playfair Display',serif;
+  font-size:30px;
+  margin-bottom:8px;
 }
 
-.intro {
-  font-family: 'Dancing Script', cursive;
-  font-size: 24px;
-  margin-bottom: 18px;
-  line-height: 1.4;
+.intro{
+  font-family:'Dancing Script',cursive;
+  font-size:24px;
+  margin-bottom:18px;
+  line-height:1.4;
 }
 
-.question {
-  font-size: 22px;
-  font-weight: 600;
-  margin-bottom: 30px;
+.question{
+  font-size:22px;
+  font-weight:600;
+  margin-bottom:30px;
 }
 
 /* Botones */
-.buttons {
-  display: flex;
-  justify-content: center;
-  gap: 24px;
+.buttons{
+  display:flex;
+  justify-content:center;
+  gap:24px;
 }
 
-button {
-  min-width: 160px;
-  padding: 12px 26px;
-  border: none;
-  border-radius: 30px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: 0.3s;
+button{
+  min-width:160px;
+  padding:12px 26px;
+  border:none;
+  border-radius:30px;
+  font-size:16px;
+  cursor:pointer;
+  transition:.3s;
 }
 
-#yesBtn {
-  background: linear-gradient(135deg, #7b2cbf, #c77dff);
-  color: white;
-  box-shadow: 0 0 15px rgba(199,125,255,0.6);
+#yesBtn{
+  background:linear-gradient(135deg,#7b2cbf,#c77dff);
+  color:white;
+  box-shadow:0 0 15px rgba(199,125,255,.6);
 }
 
-#noBtn {
-  background: #444;
-  color: white;
+#noBtn{
+  background:#444;
+  color:white;
 }
 
 /* GIF triste */
-.sad-gif {
-  display: none;
-  margin-top: 25px;
+.sad-gif{
+  display:none;
+  margin-top:25px;
 }
 
-.sad-gif img {
-  width: 200px;
-  border-radius: 16px;
+.sad-gif img{
+  width:200px;
+  border-radius:16px;
 }
 
 /* Carta final */
-.letter {
-  display: none;
-  max-height: 70vh;
-  overflow-y: auto;
-  margin-top: 30px;
-  text-align: left;
-  font-size: 16px;
-  line-height: 1.7;
-  animation: fadeIn 1.5s ease forwards;
+.letter{
+  display:none;
+  max-height:70vh;
+  overflow-y:auto;
+  margin-top:30px;
+  text-align:left;
+  font-size:16px;
+  line-height:1.7;
+  animation:fadeIn 1.5s ease forwards;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: none; }
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:none}
 }
 
-.letter p { margin-bottom: 14px; }
+.letter p{margin-bottom:14px}
 </style>
 </head>
 
@@ -133,141 +133,130 @@ button {
 <canvas id="particles"></canvas>
 
 <div class="container">
-  <div class="card">
+<div class="card">
 
-    <h1>Diana,</h1>
+<h1>Diana,</h1>
 
-    <div class="intro">
-      después de tantos videos y señales,<br>
-      creo que ya sabes qué voy a preguntar… de verdad.
-    </div>
-
-    <div class="question" id="question">
-      ¿Quieres ser mi San Valentín?
-    </div>
-
-    <div class="buttons" id="buttons">
-      <button id="yesBtn">Sí ☺️</button>
-      <button id="noBtn">No 😔</button>
-    </div>
-
-    <div class="sad-gif" id="sadGif">
-      <img src="https://media.giphy.com/media/ISOckXUybVfQ4/giphy.gif" alt="triste">
-    </div>
-
-    <div class="letter" id="letter">
-      <!-- CARTA (SIN REPETIR EL INICIO) -->
-      <p>Hoy no quiero decirte “Feliz San Valentín” como si fuera una fecha cualquiera.</p>
-      <p>Quiero decirte que me gusta amarte. Me gusta la forma en que estás en mi vida, sin ruido y sin esfuerzo, como algo que simplemente pertenece ahí.</p>
-      <p>Me gusta cómo el mundo se siente un poco más en calma cuando pienso en ti.</p>
-      <p>No estoy contigo por razones que se puedan enumerar.</p>
-      <p>Estoy contigo porque tu presencia se volvió hogar. Porque tu nombre me nace con cariño. Porque elegirte no se siente como una decisión difícil… sino como la correcta.</p>
-      <p>Hay algo muy bonito en saber que eres tú. En saber que no necesito buscar más ni imaginar otros caminos.</p>
-      <p>No estoy contigo por lo fácil.</p>
-      <p>Estoy contigo porque cuando decidimos ir a por todo… fue real.</p>
-      <p>Me gusta que no somos perfectos. Me gusta que construimos con conciencia. Me gusta que quieras dar, aportar y estar a la altura, al igual que yo lo intento.</p>
-      <p>No quiero una vida donde todo sea sencillo.</p>
-      <p>Quiero una vida donde, pase lo que pase, sea contigo.</p>
-      <p><strong>Eres mi decisión constante.</strong></p>
-      <p><strong>Feliz día, Diana 🖤</strong></p>
-    </div>
-
-  </div>
+<div class="intro">
+después de tantos videos y señales,<br>
+creo que ya sabes qué voy a preguntar… de verdad.
 </div>
 
-<!-- Música (ejemplo, cambia el src por tu canción) -->
+<div class="question" id="question">
+¿Quieres ser mi San Valentín?
+</div>
+
+<div class="buttons" id="buttons">
+  <button id="yesBtn">Sí ☺️</button>
+  <button id="noBtn">No 😔</button>
+</div>
+
+<div class="sad-gif" id="sadGif">
+  <img src="https://media.giphy.com/media/ISOckXUybVfQ4/giphy.gif" alt="triste">
+</div>
+
+<!-- CARTA: SIN PRELUDIO -->
+<div class="letter" id="letter">
+  <p>Hoy no quiero decirte “Feliz San Valentín” como si fuera una fecha cualquiera.</p>
+  <p>Quiero decirte que me gusta amarte. Me gusta la forma en que estás en mi vida, sin ruido y sin esfuerzo, como algo que simplemente pertenece ahí.</p>
+  <p>Me gusta cómo el mundo se siente un poco más en calma cuando pienso en ti.</p>
+  <p>No estoy contigo por razones que se puedan enumerar.</p>
+  <p>Estoy contigo porque tu presencia se volvió hogar. Porque tu nombre me nace con cariño. Porque elegirte no se siente como una decisión difícil… sino como la correcta.</p>
+  <p>Hay algo muy bonito en saber que eres tú. En saber que no necesito buscar más ni imaginar otros caminos.</p>
+  <p>No estoy contigo por lo fácil.</p>
+  <p>Estoy contigo porque cuando decidimos ir a por todo… fue real.</p>
+  <p>Me gusta que no somos perfectos. Me gusta que construimos con conciencia. Me gusta que quieras dar, aportar y estar a la altura, al igual que yo lo intento.</p>
+  <p>No quiero una vida donde todo sea sencillo.</p>
+  <p>Quiero una vida donde, pase lo que pase, sea contigo.</p>
+  <p><strong>Eres mi decisión constante.</strong></p>
+  <p><strong>Feliz día, Diana 🖤</strong></p>
+</div>
+
+</div>
+</div>
+
 <audio id="music" src="cancion.mp3"></audio>
 
 <script>
-/* ===== Partículas ===== */
-const canvas = document.getElementById("particles");
-const ctx = canvas.getContext("2d");
+/* Partículas */
+const canvas=document.getElementById("particles");
+const ctx=canvas.getContext("2d");
+let w,h;
+function resize(){w=canvas.width=innerWidth;h=canvas.height=innerHeight}
+addEventListener("resize",resize);resize();
 
-let w, h;
-function resize() {
-  w = canvas.width = window.innerWidth;
-  h = canvas.height = window.innerHeight;
-}
-window.addEventListener("resize", resize);
-resize();
+const particles=[...Array(70)].map(()=>({
+  x:Math.random()*w,y:Math.random()*h,
+  r:Math.random()*1.5+.5,
+  vx:Math.random()*.25-.125,
+  vy:Math.random()*.25-.125,
+  o:Math.random()*.6+.25
+}));
 
-const particles = [];
-for (let i = 0; i < 70; i++) {
-  particles.push({
-    x: Math.random() * w,
-    y: Math.random() * h,
-    r: Math.random() * 1.5 + 0.5,
-    vx: Math.random() * 0.25 - 0.125,
-    vy: Math.random() * 0.25 - 0.125,
-    o: Math.random() * 0.6 + 0.25
-  });
-}
-
-function animate() {
-  ctx.clearRect(0, 0, w, h);
-  particles.forEach(p => {
-    p.x += p.vx;
-    p.y += p.vy;
-    if (p.x < 0) p.x = w;
-    if (p.x > w) p.x = 0;
-    if (p.y < 0) p.y = h;
-    if (p.y > h) p.y = 0;
+(function animate(){
+  ctx.clearRect(0,0,w,h);
+  particles.forEach(p=>{
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<0)p.x=w;if(p.x>w)p.x=0;
+    if(p.y<0)p.y=h;if(p.y>h)p.y=0;
     ctx.beginPath();
-    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(200,160,255,${p.o})`;
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(200,160,255,${p.o})`;
     ctx.fill();
   });
   requestAnimationFrame(animate);
-}
-animate();
+})();
 
-/* ===== Lógica botones ===== */
-const noBtn = document.getElementById("noBtn");
-const yesBtn = document.getElementById("yesBtn");
-const sadGif = document.getElementById("sadGif");
-const letter = document.getElementById("letter");
-const buttons = document.getElementById("buttons");
-const question = document.getElementById("question");
-const music = document.getElementById("music");
+/* Lógica botones */
+const noBtn=document.getElementById("noBtn");
+const yesBtn=document.getElementById("yesBtn");
+const sadGif=document.getElementById("sadGif");
+const letter=document.getElementById("letter");
+const buttons=document.getElementById("buttons");
+const question=document.getElementById("question");
+const music=document.getElementById("music");
 
-const noTexts = [
-  "No 😔",
-  "Ay 🤧",
-  "¿Cómo? 😱",
-  "Es broma, ¿verdad? 🥲",
-  "¿Por qué? 😭",
-  "Me duele un poco 💔",
-  "Piénsalo bien… 🥹",
-  "Última oportunidad 😶",
-  "Está bien…"
+const noTexts=[
+"No 😔","Ay 🤧","¿Cómo? 😱","Es broma, ¿verdad? 🥲","¿Por qué? 😭",
+"Me duele un poco 💔","Piénsalo bien… 🥹","Última oportunidad 😶","Está bien…"
 ];
 
-let noCount = 0;
-let yesCount = 0;
+let noCount=0, yesCount=0;
+const lockAt=Math.ceil(noTexts.length/2);
 
-noBtn.addEventListener("click", () => {
+noBtn.addEventListener("click",()=>{
   noCount++;
-  if (noCount < noTexts.length) {
-    noBtn.textContent = noTexts[noCount];
-  } else {
-    sadGif.style.display = "block";
-    noBtn.style.display = "none";
+  if(noCount<noTexts.length){
+    noBtn.textContent=noTexts[noCount];
+  }else{
+    sadGif.style.display="block";
+    noBtn.style.display="none";
   }
-  yesBtn.style.boxShadow = `0 0 ${15 + noCount * 6}px rgba(220,180,255,0.9)`;
+
+  yesBtn.style.boxShadow=`0 0 ${15+noCount*6}px rgba(220,180,255,.9)`;
+
+  if(noCount>=lockAt){
+    yesBtn.disabled=true;
+    yesBtn.textContent="No, ya no 🙂‍↔️";
+    yesBtn.style.background="#555";
+    yesBtn.style.boxShadow="none";
+    yesBtn.style.cursor="default";
+  }
 });
 
-yesBtn.addEventListener("click", () => {
+yesBtn.addEventListener("click",()=>{
+  if(yesBtn.disabled) return;
   yesCount++;
-  if (yesCount === 1) {
-    yesBtn.textContent = "¿De verdad? ☺️";
-  } else if (yesCount === 2) {
-    yesBtn.textContent = "¿En serio en serio? 🥹";
-  } else {
+  if(yesCount===1){
+    yesBtn.textContent="¿De verdad? ☺️";
+  }else if(yesCount===2){
+    yesBtn.textContent="¿En serio en serio? 🥹";
+  }else{
     music.play();
-    question.style.display = "none";
-    buttons.style.display = "none";
-    sadGif.style.display = "none";
-    letter.style.display = "block";
+    question.style.display="none";
+    buttons.style.display="none";
+    sadGif.style.display="none";
+    letter.style.display="block";
   }
 });
 </script>
